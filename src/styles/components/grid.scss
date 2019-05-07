@@ -1,0 +1,66 @@
+$cellWidth: 60px; // width of individual cells
+$quadrantHeight: 300px; // length of the square area
+
+$quadrantWidth: calc(#{$quadrantHeight} + #{$cellWidth} * 3);
+$borderColor: #ddd;
+$backgroundColor: #eee;
+$cellColor: #f7f7f7;
+
+.grid {
+  position: relative;
+  width: calc(#{$quadrantHeight} + #{$quadrantWidth} + 2px);
+  height: calc(#{$quadrantHeight} + #{$quadrantWidth} + 2px);
+  border: 1px solid $borderColor;
+
+  &__center {
+    position: absolute;
+    top: $quadrantHeight;
+    left: $quadrantHeight;
+    width: calc(#{$quadrantWidth} - #{$quadrantHeight});
+    height: calc(#{$quadrantWidth} - #{$quadrantHeight});
+    border: 1px solid $borderColor;
+  }
+}
+
+.quadrant {
+  position: absolute;
+  transform-origin: 0 0;
+  display: flex;
+
+  &--red {
+    transform: translateY($quadrantWidth);
+    outline: red solid 2px;
+    outline-offset: 2px;
+    z-index: 1;
+  }
+  &--blue {
+    transform: translate($quadrantWidth, calc(#{$quadrantHeight} + #{$quadrantWidth})) rotate(270deg);
+  }
+  &--yellow {
+    transform: translate(calc(#{$quadrantHeight} + #{$quadrantWidth}), $quadrantHeight) rotate(180deg);
+  }
+  &--green {
+    transform: translateX($quadrantHeight) rotate(90deg);
+  }
+
+  &__home {
+    width: $quadrantHeight;
+    height: $quadrantHeight;
+    border: 1px solid $borderColor;
+    background-color: $backgroundColor;
+  }
+
+  &__rows {
+    display: flex;
+  }
+
+  &__cell {
+    width: $cellWidth;
+    height: calc(#{$quadrantHeight} / 6);
+    border: 1px solid $borderColor;
+
+    &:nth-of-type(2n+1) {
+      background-color: $cellColor;
+    }
+  }
+}

@@ -1,12 +1,10 @@
 import React from 'react'
 
+import Home from './views/Home'
+
+// TODO: Routes
 const App = () => {
-  return <div>
-    <h1>
-      <span className='logo' />
-      Ludo!
-    </h1>
-  </div>
+  return <Home />
 }
 
 export default App
