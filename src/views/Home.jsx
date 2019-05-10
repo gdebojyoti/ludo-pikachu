@@ -1,26 +1,22 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import Grid from '../components/Grid'
 import Coin from '../components/Coin'
-import { subscribeToTimer } from '../actions/socket'
-console.log(subscribeToTimer)
+import { initialize } from '../actions/socket'
 
 import '../styles/views/home'
 
-const Home = () => {
+const Home = props => {
+  const { players, dispatch } = props
   const [position, setPosition] = useState()
-  const [timestamp, setTimestamp] = useState(null)
 
   useEffect(() => {
     setPosition(132) // dummy value
-    console.log("did mount")
-    subscribeToTimer(timestamp => {
-      setTimestamp(timestamp)
-    })
+    dispatch(initialize())
   }, [])
 
-  console.log("timestamp", timestamp)
-  
   return <Fragment>
     <h1>
       <span className='logo' />
@@ -33,4 +29,15 @@ const Home = () => {
   </Fragment>
 }
 
-export default Home
+const mapStateToProps = state => ({
+  players: state.players
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    initialize: bindActionCreators(initialize, dispatch),
+    dispatch
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
