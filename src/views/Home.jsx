@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import Grid from '../components/Grid'
 import Coin from '../components/Coin'
+import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
 import '../styles/views/home'
@@ -18,7 +19,11 @@ const Home = props => {
   }, [])
 
   useEffect(() => {
-    console.log("players", players)
+    console.log("players", players, players[profile.id])
+    // NOTE: Temporary; only alfa coin is being moved for now
+    const { coins: { alfa = 0 } = {} } = players[profile.id] || {}
+    console.log("alfa", alfa)
+    alfa && setPosition(alfa)
   }, [players[profile.id]])
 
   return <Fragment>
@@ -30,6 +35,8 @@ const Home = props => {
     <Grid players={players} />
 
     <Coin position={position} />
+
+    <Dice />
   </Fragment>
 }
 

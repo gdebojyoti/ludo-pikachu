@@ -17,21 +17,35 @@ const initialize = () => {
       name, home
     })
     
-    // when current player (client) has joined
-    socket.on('CLIENT_JOINED', ({ id, name, home, matchId }) => {
-      // update current player's data
+    // // when current player (client) has joined
+    // socket.on('CLIENT_JOINED', ({ id, name, home, matchId }) => {
+    //   // update current player's data
+    //   dispatch({
+    //     type: 'UPDATE_PROFILE_DATA',
+    //     payload: {
+    //       id, name, home, matchId
+    //     }
+    //   })
+
+    //   // update list of all players
+    //   dispatch({
+    //     type: 'PLAYER_JOINED',
+    //     payload: {
+    //       id, name, home
+    //     }
+    //   })
+    // })
+
+    socket.on('LATEST_MATCH_DATA', ({ playerId: id, players, matchId, name, home }) => {
+      dispatch({
+        type: 'SET_MATCH_DATA',
+        payload: players
+      })
+
       dispatch({
         type: 'UPDATE_PROFILE_DATA',
         payload: {
           id, name, home, matchId
-        }
-      })
-
-      // update list of all players
-      dispatch({
-        type: 'PLAYER_JOINED',
-        payload: {
-          id, name, home
         }
       })
     })
@@ -45,6 +59,11 @@ const initialize = () => {
       })
     })
 
+    // when a player rolls dice
+    socket.on('DICE_ROLLED', data => {
+      console.log("Dice rolled", data)
+    })
+
     // when a coin of any player changes position
     socket.on('UPDATE_COIN_POSITION', data => {
       console.log("updating coin position", data)
@@ -54,7 +73,7 @@ const initialize = () => {
         payload: {
           id: data.playerId,
           coinId: data.coinId,
-          coinPosition: data.position
+          coinPosition: data.coinPosition
         }
       })
     })
@@ -66,6 +85,13 @@ const initialize = () => {
   }
 }
 
+const triggerDiceRoll = () => {
+  socket.emit('TRIGGER_DICE_ROLL', {
+    coinId: 'alfa'
+  })
+}
+
 export {
-  initialize
+  initialize,
+  triggerDiceRoll
 }
