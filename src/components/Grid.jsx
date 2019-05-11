@@ -2,11 +2,19 @@ import React from 'react'
 
 import '../styles/components/grid'
 
-const Grid = () => {
+const Grid = ({ players }) => {
+  // TODO: find a better way to distribute data
+  const playersData = {}
+  for (const id in players) {
+    if (players.hasOwnProperty(id)) {
+      playersData[players[id].home] = players[id]
+    }
+  }
+
   return <div className='grid'>
-    <Quadrant className='quadrant--red' id='1' />
-    <Quadrant className='quadrant--blue' id='4' />
-    <Quadrant className='quadrant--yellow' id='3' />
+    <Quadrant className='quadrant--red' id='1' playerData={playersData.red} />
+    <Quadrant className='quadrant--blue' id='4' playerData={playersData.blue} />
+    <Quadrant className='quadrant--yellow' id='3' playerData={playersData.yellow} />
     <Quadrant className='quadrant--green' id='2' />
 
     <Center />
@@ -14,14 +22,27 @@ const Grid = () => {
 }
 
 const Quadrant = props => {
-  const { className, id } = props
+  const { className, id, playerData = {} } = props
   const divClass = 'quadrant' + (className ? ' ' + className : '')
+
   return <div className={divClass}>
-    <div className='quadrant__home'></div>
+    <QuadrantHome id={id} playerData={playerData} />
     <div className='quadrant__rows'>
       <Row id='3' quadrantId={id} />
       <Row id='2' quadrantId={id} />
       <Row id='1' quadrantId={id} />
+    </div>
+  </div>
+}
+
+const QuadrantHome = ({ id, playerData }) => {
+  return <div className='quadrant__home'>
+    <div className='quadrant__home-label'>{ playerData.name }</div>
+    <div>
+      <div id={`${id}01`} className='quadrant__home-cell'></div>
+      <div id={`${id}02`} className='quadrant__home-cell'></div>
+      <div id={`${id}03`} className='quadrant__home-cell'></div>
+      <div id={`${id}04`} className='quadrant__home-cell'></div>
     </div>
   </div>
 }

@@ -13,7 +13,7 @@ const Home = props => {
   const [position, setPosition] = useState()
 
   useEffect(() => {
-    setPosition(132) // dummy value
+    setPosition(104) // dummy value
     dispatch(initialize())
   }, [])
 
@@ -23,7 +23,7 @@ const Home = props => {
       Ludo!
     </h1>
 
-    <Grid />
+    <Grid players={players} />
 
     <Coin position={position} />
   </Fragment>

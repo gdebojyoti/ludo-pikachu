@@ -44,10 +44,44 @@ $cellColor: #f7f7f7;
   }
 
   &__home {
+    position: relative;
     width: $quadrantHeight;
     height: $quadrantHeight;
     border: 1px solid $borderColor;
     background-color: $backgroundColor;
+  }
+
+  // for showing player name
+  &__home-label {
+    position: absolute;
+  }
+
+  // 4 cells inside each quadrant (initial positions for coins)
+  $homeCellSide: 60px;
+  $gap: 30px;
+  &__home-cell {
+    position: absolute;
+    left: 50%;
+    width: $homeCellSide;
+    height: $homeCellSide;
+    border-radius: 50%;
+    background-color: #fff;
+    &:nth-of-type(1) {
+      top: calc(50% - #{$homeCellSide} - #{$gap} / 2);
+      left: calc(50% - #{$homeCellSide} - #{$gap} / 2);
+    }
+    &:nth-of-type(2) {
+      top: calc(50% - #{$homeCellSide} - #{$gap} / 2);
+      left: calc(50% + #{$gap} / 2);
+    }
+    &:nth-of-type(3) {
+      top: calc(50% + #{$gap} / 2);
+      left: calc(50% - #{$homeCellSide} - #{$gap} / 2);
+    }
+    &:nth-of-type(4) {
+      top: calc(50% + #{$gap} / 2);
+      left: calc(50% + #{$gap} / 2);
+    }
   }
 
   &__rows {

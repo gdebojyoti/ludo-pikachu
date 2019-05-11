@@ -9,14 +9,16 @@ export default function (state = initialState.players, action) {
       const { id, name, home } = action.payload
       const players = { ...state }
 
+      const homeId = ['red', 'blue', 'yellow', 'green'].indexOf(home) + 1
+
       players[id] = {
         name,
         home,
         coins: {
-          alfa: 0,
-          beta: 0,
-          charlie: 0,
-          delta: 0
+          alfa: `${homeId}01`,
+          beta: `${homeId}02`,
+          charlie: `${homeId}03`,
+          delta: `${homeId}04`
         },
         status: playerStatus.LIVE
       }
