@@ -2,7 +2,7 @@ import React from 'react'
 
 import '../styles/components/grid'
 
-const Grid = ({ players }) => {
+const Grid = ({ players, profile }) => {
   // TODO: find a better way to distribute data
   const playersData = {}
   for (const id in players) {
@@ -11,11 +11,12 @@ const Grid = ({ players }) => {
     }
   }
 
+  const { home } = profile
+
   return <div className='grid'>
-    <Quadrant className='quadrant--red' id='1' playerData={playersData.red} />
-    <Quadrant className='quadrant--blue' id='4' playerData={playersData.blue} />
-    <Quadrant className='quadrant--yellow' id='3' playerData={playersData.yellow} />
-    <Quadrant className='quadrant--green' id='2' />
+    {['red', 'blue', 'yellow', 'green'].map((color, index) => {
+      return <Quadrant className={`quadrant--${color}`} key={index} id={index + 1} playerData={playersData[color]} />
+    })}
 
     <Center />
   </div>
@@ -63,7 +64,10 @@ const Cell = ({ id }) => {
 }
 
 const Center = () => {
-  return <div className='grid__center'></div>
+  return <div className='grid__center'>
+    <div className='grid__logo' />
+    <h4 className='grid__title'>Ludo!</h4>
+  </div>
 }
 
 export default Grid

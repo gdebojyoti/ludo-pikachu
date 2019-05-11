@@ -13,12 +13,32 @@ $cellColor: #f7f7f7;
   border: 1px solid $borderColor;
 
   &__center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
     position: absolute;
     top: $quadrantHeight;
     left: $quadrantHeight;
     width: calc(#{$quadrantWidth} - #{$quadrantHeight});
     height: calc(#{$quadrantWidth} - #{$quadrantHeight});
     border: 1px solid $borderColor;
+  }
+
+  &__logo {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-image: url(../../assets/logo.svg);
+  }
+
+  &__title {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: bold;
+    text-align: center;
   }
 }
 
@@ -64,8 +84,9 @@ $cellColor: #f7f7f7;
     left: 50%;
     width: $homeCellSide;
     height: $homeCellSide;
-    border-radius: 50%;
     background-color: #fff;
+    // transform: rotate(20deg);
+    animation: spin 30s linear infinite;
     &:nth-of-type(1) {
       top: calc(50% - #{$homeCellSide} - #{$gap} / 2);
       left: calc(50% - #{$homeCellSide} - #{$gap} / 2);
@@ -97,4 +118,9 @@ $cellColor: #f7f7f7;
       background-color: $cellColor;
     }
   }
+}
+
+@keyframes spin {
+  from { transform: rotate(20deg); }
+  to { transform: rotate(380deg); }
 }

@@ -7,36 +7,48 @@ import Coin from '../components/Coin'
 import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
-import '../styles/views/home'
-
 const Home = props => {
   const { players, profile, dispatch } = props
-  const [position, setPosition] = useState()
 
   useEffect(() => {
-    setPosition(104) // dummy value
     dispatch(initialize())
   }, [])
 
-  useEffect(() => {
-    console.log("players", players, players[profile.id])
-    // NOTE: Temporary; only alfa coin is being moved for now
-    const { coins: { alfa = 0 } = {} } = players[profile.id] || {}
-    console.log("alfa", alfa)
-    alfa && setPosition(alfa)
-  }, [players[profile.id]])
+  // useEffect(() => {
+  //   console.log("players", players, players[profile.id])
+  // }, [players[profile.id]])
 
   return <Fragment>
-    <h1>
-      <span className='logo' />
-      Ludo!
-    </h1>
+    <Grid players={players} profile={profile} />
 
-    <Grid players={players} />
-
-    <Coin position={position} />
+    <Coins players={players} />
 
     <Dice />
+  </Fragment>
+}
+
+// render all applicable coins
+const Coins = ({ players }) => {
+  const allCoins = []
+
+  for (const playerId in players) {
+    if (players.hasOwnProperty(playerId)) {
+      const { coins, home } = players[playerId]
+      for (const coinId in coins) {
+        if (coins.hasOwnProperty(coinId)) {
+          allCoins.push({
+            position: coins[coinId],
+            home
+          })
+        }
+      }
+    }
+  }
+
+  return <Fragment>
+    {allCoins.map((coin, index) => {
+      return <Coin position={coin.position} color={coin.home} key={index} />
+    })}
   </Fragment>
 }
 
