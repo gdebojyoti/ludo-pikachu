@@ -9,13 +9,17 @@ import { initialize } from '../actions/socket'
 import '../styles/views/home'
 
 const Home = props => {
-  const { players, dispatch } = props
+  const { players, profile, dispatch } = props
   const [position, setPosition] = useState()
 
   useEffect(() => {
     setPosition(104) // dummy value
     dispatch(initialize())
   }, [])
+
+  useEffect(() => {
+    console.log("players", players)
+  }, [players[profile.id]])
 
   return <Fragment>
     <h1>
@@ -29,8 +33,9 @@ const Home = props => {
   </Fragment>
 }
 
-const mapStateToProps = state => ({
-  players: state.players
+const mapStateToProps = ({ players, profile }) => ({
+  players,
+  profile
 })
 
 const mapDispatchToProps = dispatch => {

@@ -5,7 +5,7 @@ export default function (state = initialState.players, action) {
   switch (action.type) {
     // when a new player joins
     // payload: JSON data of new player
-    case 'PLAYER_JOINED':
+    case 'PLAYER_JOINED': {
       const { id, name, home } = action.payload
       const players = { ...state }
 
@@ -24,6 +24,27 @@ export default function (state = initialState.players, action) {
       }
 
       return players
+    }
+
+    case 'UPDATE_PLAYERS_DATA': {
+      const { id, coinId, coinPosition } = action.payload
+      const players = { ...state }
+
+      if (!players[id]) {
+        return state
+      }
+
+      players[id] = {
+        ...players[id],
+        coins: {
+          ...players[id].coins,
+          [coinId]: coinPosition
+        }
+      }
+
+      return players
+    }
+    
     default:
       return state
   }

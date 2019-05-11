@@ -1,5 +1,10 @@
 window.__INITIALSTATE__ = {
-  players: {}
+  players: {},
+  cells: {},
+  profile: {
+    id: '',
+    matchId: 'some_id'
+  }
 }
 
 export default window.__INITIALSTATE__
