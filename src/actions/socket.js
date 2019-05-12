@@ -1,15 +1,15 @@
-// use heroku link only on production ("prod=true" in URL) only
-const remoteUrl = window.location.search.indexOf("prod") >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : 'http://localhost:8000'
-
 import openSocket from 'socket.io-client'
 import { getPlayerDetails } from '../utilities/data'
 
+// use heroku link only on production ("prod=true" in URL) only
+const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : 'http://localhost:8000'
+
 const socket = openSocket(remoteUrl)
 
-const subscribeToTimer = cb => {
-  socket.on('timer', timestamp => cb(timestamp))
-  socket.emit('subscribeToTimer', 2000)
-}
+// const subscribeToTimer = cb => {
+//   socket.on('timer', timestamp => cb(timestamp))
+//   socket.emit('subscribeToTimer', 2000)
+// }
 
 const initialize = () => {
   return dispatch => {
@@ -17,7 +17,7 @@ const initialize = () => {
     socket.emit('JOIN_MATCH', {
       name, home
     })
-    
+
     // // when current player (client) has joined
     // socket.on('CLIENT_JOINED', ({ id, name, home, matchId }) => {
     //   // update current player's data
@@ -62,12 +62,12 @@ const initialize = () => {
 
     // when a player rolls dice
     socket.on('DICE_ROLLED', ({ name, roll }) => {
-      console.log(name, "rolled a", roll)
+      console.log(name, 'rolled a', roll)
     })
 
     // when a coin of any player changes position
     socket.on('COIN_POSITION_UPDATED', ({ playerId: id, coinId, coinPosition, coinPath }) => {
-      console.log("updating coin position", id, coinId, coinPosition, coinPath)
+      console.log('updating coin position', id, coinId, coinPosition, coinPath)
       // update data in list of all players
       dispatch({
         type: 'UPDATE_PLAYERS_DATA',
@@ -79,7 +79,7 @@ const initialize = () => {
 
     // when a player leaves
     socket.on('PLAYER_LEFT', playerDetails => {
-      console.log("a player has left", playerDetails)
+      console.log('a player has left', playerDetails)
     })
   }
 }

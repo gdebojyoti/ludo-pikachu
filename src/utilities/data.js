@@ -1,6 +1,6 @@
 const getQueries = () => {
   const queries = {}
-  
+
   const queryStringArr = window.location.search.split('?') || []
   if (queryStringArr.length !== 2) {
     return queries

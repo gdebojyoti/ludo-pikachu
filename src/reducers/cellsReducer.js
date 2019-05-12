@@ -9,8 +9,8 @@ export default function (state = initialState.cells, action) {
       const cell = Object.assign({}, cells[cellId])
       cell.pieces = (cell.pieces || []).filter(x => x !== pieceId).concat(pieceId)
       cells[cellId] = cell
-      
-      console.log("added", cell, cells)
+
+      console.log('added', cell, cells)
       return cells
     }
 
@@ -21,8 +21,8 @@ export default function (state = initialState.cells, action) {
       const cell = Object.assign({}, cells[cellId])
       cell.pieces = (cell.pieces || []).filter(x => x !== pieceId)
       cells[cellId] = cell
-      
-      console.log("removed", cell, cells)
+
+      console.log('removed', cell, cells)
       return cells
     }
 

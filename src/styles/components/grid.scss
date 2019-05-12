@@ -4,7 +4,7 @@ $quadrantHeight: 300px; // length of the square area
 $quadrantWidth: calc(#{$quadrantHeight} + #{$cellWidth} * 3);
 $borderColor: #ddd;
 $backgroundColor: #eee;
-$cellColor: #f7f7f7;
+// $cellColor: #f7f7f7;
 
 .grid {
   position: relative;

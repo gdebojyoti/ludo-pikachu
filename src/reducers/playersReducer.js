@@ -48,7 +48,7 @@ export default function (state = initialState.players, action) {
     case 'SET_MATCH_DATA' : {
       return action.payload
     }
-    
+
     default:
       return state
   }

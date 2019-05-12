@@ -11,7 +11,8 @@ const Grid = ({ players, profile }) => {
     }
   }
 
-  const { home } = profile
+  // TODO: Do something special with client's home quadrant (may be rotate only their home cells during their turn)
+  // const { home } = profile
 
   return <div className='grid'>
     {['red', 'blue', 'yellow', 'green'].map((color, index) => {
@@ -40,10 +41,10 @@ const QuadrantHome = ({ id, playerData }) => {
   return <div className='quadrant__home'>
     <div className='quadrant__home-label'>{ playerData.name }</div>
     <div>
-      <div id={`${id}01`} className='quadrant__home-cell'></div>
-      <div id={`${id}02`} className='quadrant__home-cell'></div>
-      <div id={`${id}03`} className='quadrant__home-cell'></div>
-      <div id={`${id}04`} className='quadrant__home-cell'></div>
+      <div id={`${id}01`} className='quadrant__home-cell' />
+      <div id={`${id}02`} className='quadrant__home-cell' />
+      <div id={`${id}03`} className='quadrant__home-cell' />
+      <div id={`${id}04`} className='quadrant__home-cell' />
     </div>
   </div>
 }
@@ -61,15 +62,15 @@ const Row = props => {
 
 const Cell = ({ id }) => {
   let cellClass = 'quadrant__cell'
-  
+
   const remaining = id % 100
-  if (remaining >= 20 && remaining <= 24 || remaining === 34) {
+  if ((remaining >= 20 && remaining <= 24) || remaining === 34) {
     cellClass += ' quadrant__cell--home'
   }
   if (remaining === 13 || remaining === 34) {
     cellClass += ' quadrant__cell--safe'
   }
-  
+
   return <div className={cellClass} id={id}>{id}</div>
 }
 
