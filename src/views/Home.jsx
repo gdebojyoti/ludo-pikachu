@@ -37,6 +37,7 @@ const Coins = ({ players }) => {
       for (const coinId in coins) {
         if (coins.hasOwnProperty(coinId)) {
           allCoins.push({
+            id: coinId,
             position: coins[coinId],
             home
           })
@@ -46,8 +47,8 @@ const Coins = ({ players }) => {
   }
 
   return <Fragment>
-    {allCoins.map((coin, index) => {
-      return <Coin position={coin.position} color={coin.home} key={index} />
+    {allCoins.map(({ id, position, home }) => {
+      return <Coin id={id} position={position} color={home} key={`${home}-${id}`} />
     })}
   </Fragment>
 }

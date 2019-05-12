@@ -60,20 +60,18 @@ const initialize = () => {
     })
 
     // when a player rolls dice
-    socket.on('DICE_ROLLED', data => {
-      console.log("Dice rolled", data)
+    socket.on('DICE_ROLLED', ({ name, roll }) => {
+      console.log(name, "rolled a", roll)
     })
 
     // when a coin of any player changes position
-    socket.on('UPDATE_COIN_POSITION', data => {
-      console.log("updating coin position", data)
+    socket.on('COIN_POSITION_UPDATED', ({ playerId: id, coinId, coinPosition, coinPath }) => {
+      console.log("updating coin position", id, coinId, coinPosition, coinPath)
       // update data in list of all players
       dispatch({
         type: 'UPDATE_PLAYERS_DATA',
         payload: {
-          id: data.playerId,
-          coinId: data.coinId,
-          coinPosition: data.coinPosition
+          id, coinId, coinPosition, coinPath
         }
       })
     })
@@ -86,12 +84,17 @@ const initialize = () => {
 }
 
 const triggerDiceRoll = () => {
-  socket.emit('TRIGGER_DICE_ROLL', {
-    coinId: 'alfa'
+  socket.emit('TRIGGER_DICE_ROLL')
+}
+
+const onSelectCoin = coinId => {
+  socket.emit('COIN_SELECTED', {
+    coinId
   })
 }
 
 export {
   initialize,
-  triggerDiceRoll
+  triggerDiceRoll,
+  onSelectCoin
 }

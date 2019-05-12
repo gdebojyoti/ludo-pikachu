@@ -1,8 +1,10 @@
 import React from 'react'
 
+import { onSelectCoin } from '../actions/socket'
+
 import '../styles/components/coin'
 
-const Coin = ({ position, color, isActive }) => {
+const Coin = ({ id, position, color, isActive }) => {
   const elm = document.getElementById(position)
   const style = {}
 
@@ -13,7 +15,7 @@ const Coin = ({ position, color, isActive }) => {
     style.transform = `translate(${x + (width - coinSize) / 2}px, ${y + (height - coinSize) / 2}px) ${isActive ? 'scale(1.3)' : ''}`
   }
 
-  return <div className={`coin coin--${color}`} id='coin' style={style}></div>
+  return <div className={`coin coin--${color}`} id='coin' style={style} onClick={() => onSelectCoin(id)}></div>
 }
 
 export default Coin
