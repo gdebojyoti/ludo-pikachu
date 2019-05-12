@@ -21,8 +21,8 @@ You can find the backend here - [Ludo Blastoise](https://github.com/gdebojyoti/l
 - [ ] Chat
 - [ ] Emojis & themes
 - [ ] PWA; offline multiplayer (locally)
-- [ ] create bot; enable single player (during offline play)
-- [ ] more game modes
+- [ ] Create bot; enable single player (during offline play)
+- [ ] More game modes
 
 #### Disclaimer
 
