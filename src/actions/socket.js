@@ -77,6 +77,11 @@ const initialize = () => {
       })
     })
 
+    // update current turn
+    socket.on('SET_NEXT_TURN', ({ playerId }) => {
+      console.log('next turn belongs to:', playerId)
+    })
+
     // when a player leaves
     socket.on('PLAYER_LEFT', playerDetails => {
       console.log('a player has left', playerDetails)
