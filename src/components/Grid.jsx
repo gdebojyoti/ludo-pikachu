@@ -60,7 +60,17 @@ const Row = props => {
 }
 
 const Cell = ({ id }) => {
-  return <div className='quadrant__cell' id={id}>{id}</div>
+  let cellClass = 'quadrant__cell'
+  
+  const remaining = id % 100
+  if (remaining >= 20 && remaining <= 24 || remaining === 34) {
+    cellClass += ' quadrant__cell--home'
+  }
+  if (remaining === 13 || remaining === 34) {
+    cellClass += ' quadrant__cell--safe'
+  }
+  
+  return <div className={cellClass} id={id}>{id}</div>
 }
 
 const Center = () => {
