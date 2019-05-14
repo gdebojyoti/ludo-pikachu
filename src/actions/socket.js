@@ -72,7 +72,19 @@ const initialize = () => {
       dispatch({
         type: 'UPDATE_PLAYERS_DATA',
         payload: {
-          id, coinId, coinPosition, coinPath
+          id, coinId, coinPosition
+        }
+      })
+    })
+
+    // when enemy coin gets eaten
+    socket.on('ENEMY_COIN_EATEN', ({ coin: { playerId: id, coinId }, position: coinPosition }) => {
+      console.log('enemy coin eaten', id, coinId, coinPosition)
+      // update data in list of all players
+      dispatch({
+        type: 'UPDATE_PLAYERS_DATA',
+        payload: {
+          id, coinId, coinPosition
         }
       })
     })
