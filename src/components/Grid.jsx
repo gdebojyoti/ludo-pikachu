@@ -34,6 +34,7 @@ const Quadrant = props => {
       <Row id='2' quadrantId={id} />
       <Row id='1' quadrantId={id} />
     </div>
+    <Cell id={`${id}99`} className='quadrant__cell--end' />
   </div>
 }
 
@@ -60,8 +61,8 @@ const Row = props => {
   </div>
 }
 
-const Cell = ({ id }) => {
-  let cellClass = 'quadrant__cell'
+const Cell = ({ id, className = '' }) => {
+  let cellClass = `quadrant__cell ${className}`
 
   const remaining = id % 100
   if ((remaining >= 20 && remaining <= 24) || remaining === 34) {
@@ -77,7 +78,7 @@ const Cell = ({ id }) => {
 const Center = () => {
   return <div className='grid__center'>
     <div className='grid__logo' />
-    <h4 className='grid__title'>Ludo!</h4>
+    {/* <h4 className='grid__title'>Ludo!</h4> */}
   </div>
 }
 

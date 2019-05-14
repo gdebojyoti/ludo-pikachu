@@ -49,22 +49,22 @@ $backgroundColor: #eee;
 
   &--red {
     transform: translateY($quadrantWidth);
-    outline: red solid 2px;
-    outline-offset: 2px;
+    // outline: red solid 2px;
+    // outline-offset: 2px;
     z-index: 1;
-    .quadrant__home, .quadrant__cell--home { background-color: #e74c3ccc; }
+    .quadrant__home, .quadrant__cell--home, .quadrant__cell--end { background-color: #e74c3ccc; }
   }
   &--blue {
     transform: translate($quadrantWidth, calc(#{$quadrantHeight} + #{$quadrantWidth})) rotate(270deg);
-    .quadrant__home, .quadrant__cell--home { background-color: #3498dbcc; }
+    .quadrant__home, .quadrant__cell--home, .quadrant__cell--end { background-color: #3498dbcc; }
   }
   &--yellow {
     transform: translate(calc(#{$quadrantHeight} + #{$quadrantWidth}), $quadrantHeight) rotate(180deg);
-    .quadrant__home, .quadrant__cell--home { background-color: #f1c40fcc; }
+    .quadrant__home, .quadrant__cell--home, .quadrant__cell--end { background-color: #f1c40fcc; }
   }
   &--green {
     transform: translateX($quadrantHeight) rotate(90deg);
-    .quadrant__home, .quadrant__cell--home { background-color: #27ae60cc; }
+    .quadrant__home, .quadrant__cell--home, .quadrant__cell--end { background-color: #27ae60cc; }
   }
 
   &__home {
@@ -134,6 +134,13 @@ $backgroundColor: #eee;
         border: 5px solid #0004;
         border-radius: 50%;
       }
+    }
+
+    &--end {
+      position: absolute;
+      right: 60px;
+      top: -50px;
+      border: 1px solid #0009;
     }
   }
 }
