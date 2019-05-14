@@ -89,8 +89,8 @@ const initialize = () => {
   }
 }
 
-const triggerDiceRoll = () => {
-  socket.emit('TRIGGER_DICE_ROLL')
+const triggerDiceRoll = (number = 0) => {
+  socket.emit('TRIGGER_DICE_ROLL', number)
 }
 
 const onSelectCoin = coinId => {
