@@ -12,13 +12,12 @@ You can find the backend here - [Ludo Blastoise](https://github.com/gdebojyoti/l
 
 ## Features / Roadmap
 
-- [x] Create a read me file - listing features & how to's
-- [x] Start working :P
-- [x] A useless third point, acting as a filler (Ah ha! 3 points have already been completed). Ignore this
-- [ ] Basic game is ready
-- [ ] Better UI (responsive; fit for mobile devices) & sounds
+- [x] Basic game is ready
+- [ ] Basic features: Start screen (new game); player name; color choice; invite others
+- [ ] Better UI (coins in cells; prevent invalid selections; dice rolls; responsive; fit for mobile devices) & sounds
 - [ ] Better UX (resume playing; multiple games simultaneously)
 - [ ] Facebook login
+- [ ] Scores & Leaderboard
 - [ ] Chat
 - [ ] Emojis & themes
 - [ ] PWA; offline multiplayer (locally)
