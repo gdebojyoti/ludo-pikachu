@@ -98,6 +98,12 @@ const initialize = () => {
     socket.on('PLAYER_LEFT', playerDetails => {
       console.log('a player has left', playerDetails)
     })
+
+    // game over
+    socket.on('GAME_OVER', ({ winner }) => {
+      console.log('winner', winner)
+      window.alert(`Game won by ${winner}!`)
+    })
   }
 }
 
