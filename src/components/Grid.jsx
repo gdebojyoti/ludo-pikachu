@@ -1,8 +1,10 @@
 import React from 'react'
 
+import Coin from './Coin'
+
 import '../styles/components/grid'
 
-const Grid = ({ players, profile }) => {
+const Grid = ({ players, profile, cells }) => {
   // TODO: find a better way to distribute data
   const playersData = {}
   for (const id in players) {
@@ -16,7 +18,7 @@ const Grid = ({ players, profile }) => {
 
   return <div className='grid'>
     {['red', 'blue', 'yellow', 'green'].map((color, index) => {
-      return <Quadrant className={`quadrant--${color}`} key={index} id={index + 1} playerData={playersData[color]} />
+      return <Quadrant className={`quadrant--${color}`} key={index} id={index + 1} playerData={playersData[color]} cells={cells} />
     })}
 
     <Center />
@@ -24,15 +26,13 @@ const Grid = ({ players, profile }) => {
 }
 
 const Quadrant = props => {
-  const { className, id, playerData = {} } = props
+  const { className, id, playerData = {}, cells } = props
   const divClass = 'quadrant' + (className ? ' ' + className : '')
 
   return <div className={divClass}>
     <QuadrantHome id={id} playerData={playerData} />
     <div className='quadrant__rows'>
-      <Row id='3' quadrantId={id} />
-      <Row id='2' quadrantId={id} />
-      <Row id='1' quadrantId={id} />
+      {[3, 2, 1].map(index => <Row id={index} quadrantId={id} cells={cells} key={index} />)}
     </div>
     <Cell id={`${id}99`} className='quadrant__cell--end' />
   </div>
@@ -51,17 +51,18 @@ const QuadrantHome = ({ id, playerData }) => {
 }
 
 const Row = props => {
-  const { id, quadrantId } = props
+  const { id, quadrantId, cells: cellsData } = props
   const cells = []
   for (let i = 0; i < 6; i++) {
-    cells.push(<Cell key={i} id={`${quadrantId}${id}${i}`} />)
+    const key = `${quadrantId}${id}${i}`
+    cells.push(<Cell key={i} id={key} data={cellsData[key]} />)
   }
   return <div className='quadrant__row'>
     { cells }
   </div>
 }
 
-const Cell = ({ id, className = '' }) => {
+const Cell = ({ id, className = '', data: { coins = [] } = {} }) => {
   let cellClass = `quadrant__cell ${className}`
 
   const remaining = id % 100
@@ -72,7 +73,17 @@ const Cell = ({ id, className = '' }) => {
     cellClass += ' quadrant__cell--safe'
   }
 
-  return <div className={cellClass} id={id}>{id}</div>
+  return <div className={cellClass} id={id}>
+    {
+      coins.length
+        ? coins.map(
+          ({ coinId, playerId, color }) => <div className='quadrant__cell-container' key={coinId + playerId}>
+            <Coin id={coinId} position={null} color={color} />
+          </div>
+        )
+        : <span>{id}</span>
+    }
+  </div>
 }
 
 const Center = () => {

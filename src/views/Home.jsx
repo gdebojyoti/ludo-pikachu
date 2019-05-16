@@ -8,7 +8,7 @@ import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
 const Home = props => {
-  const { players, profile, dispatch } = props
+  const { players, profile, cells, dispatch } = props
 
   useEffect(() => {
     dispatch(initialize())
@@ -19,7 +19,7 @@ const Home = props => {
   // }, [players[profile.id]])
 
   return <Fragment>
-    <Grid players={players} profile={profile} />
+    <Grid players={players} profile={profile} cells={cells} />
 
     <Coins players={players} />
 
@@ -38,8 +38,9 @@ const Coins = ({ players }) => {
         if (coins.hasOwnProperty(coinId)) {
           allCoins.push({
             id: coinId,
-            position: coins[coinId],
-            home
+            position: coins[coinId].position,
+            home,
+            isShowing: coins[coinId].isShowing
           })
         }
       }
@@ -47,15 +48,20 @@ const Coins = ({ players }) => {
   }
 
   return <Fragment>
-    {allCoins.map(({ id, position, home }) => {
+    {allCoins.map(({ id, home, position, isShowing }) => {
+      if (!isShowing) {
+        return null
+      }
+
       return <Coin id={id} position={position} color={home} key={`${home}-${id}`} />
     })}
   </Fragment>
 }
 
-const mapStateToProps = ({ players, profile }) => ({
+const mapStateToProps = ({ players, profile, cells }) => ({
   players,
-  profile
+  profile,
+  cells
 })
 
 const mapDispatchToProps = dispatch => {

@@ -12,7 +12,7 @@ const socket = openSocket(remoteUrl)
 // }
 
 const initialize = () => {
-  return dispatch => {
+  return (dispatch, getState) => {
     const { name, home } = getPlayerDetails()
     socket.emit('JOIN_MATCH', {
       name, home
@@ -44,6 +44,11 @@ const initialize = () => {
       })
 
       dispatch({
+        type: 'POPULATE_CELLS',
+        payload: players
+      })
+
+      dispatch({
         type: 'UPDATE_PROFILE_DATA',
         payload: {
           id, name, home, matchId
@@ -68,13 +73,73 @@ const initialize = () => {
     // when a coin of any player changes position
     socket.on('COIN_POSITION_UPDATED', ({ playerId: id, coinId, coinPosition, coinPath }) => {
       console.log('updating coin position', id, coinId, coinPosition, coinPath)
-      // update data in list of all players
+      const {
+        players: {
+          [id]: {
+            home: color,
+            coins: {
+              [coinId]: {
+                position: coinPositionOld
+              }
+            } = {}
+          } = {}
+        } = {}
+      } = getState()
+
+      // remove coin from old cell
+      dispatch({
+        type: 'REMOVE_COIN_FROM_CELL',
+        payload: {
+          cellId: coinPositionOld,
+          playerId: id,
+          coinId
+        }
+      })
+
+      // show up coin in old position
       dispatch({
         type: 'UPDATE_PLAYERS_DATA',
         payload: {
-          id, coinId, coinPosition
+          id, coinId, coinPosition: coinPositionOld, isShowing: true
         }
       })
+
+      // move coin from old position to new position
+      let step = 0
+      let interval = setInterval(() => { // NOTE: This might take quite a performance hit; find an alternate (and more elegant) solution
+        if (step < coinPath.length && interval) {
+          // move the coin (with animation)
+          dispatch({
+            type: 'UPDATE_PLAYERS_DATA',
+            payload: {
+              id, coinId, coinPosition: coinPath[step], isShowing: true
+            }
+          })
+          step++
+        } else {
+          // hide moveable coin in final position
+          dispatch({
+            type: 'UPDATE_PLAYERS_DATA',
+            payload: {
+              id, coinId, coinPosition, isShowing: false
+            }
+          })
+
+          // add coin to new cell
+          dispatch({
+            type: 'ADD_COIN_TO_CELL',
+            payload: {
+              cellId: coinPosition,
+              playerId: id,
+              coinId,
+              color
+            }
+          })
+
+          clearInterval(interval)
+          interval = null
+        }
+      }, 300)
     })
 
     // when enemy coin gets eaten

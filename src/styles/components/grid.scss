@@ -4,7 +4,6 @@ $quadrantHeight: 300px; // length of the square area
 $quadrantWidth: calc(#{$quadrantHeight} + #{$cellWidth} * 3);
 $borderColor: #ddd;
 $backgroundColor: #eee;
-// $cellColor: #f7f7f7;
 
 .grid {
   position: relative;
@@ -114,19 +113,27 @@ $backgroundColor: #eee;
   }
 
   &__cell {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: $cellWidth;
     height: calc(#{$quadrantHeight} / 6);
+    padding: 0 10px;
     border: 1px solid $borderColor;
     line-height: calc(#{$quadrantHeight} / 6);
     color: #0002;
     text-align: center;
-    // background-color: $cellColor;
 
+    // NOTE: Refactor & improve
     &--safe {
+      background-color: #0002;
       &::after {
         content: '';
-        position: relative;
-        top: calc(-#{$quadrantHeight} / 6 + 7px);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         display: inline-block;
         box-sizing: border-box;
         width: calc(#{$quadrantHeight} / 6 - 16px);
@@ -141,6 +148,23 @@ $backgroundColor: #eee;
       right: 60px;
       top: -50px;
       border: 1px solid #0009;
+    }
+  }
+
+  &__cell-container {
+    position: relative;
+    width: 30px;
+  }
+
+  // NOTE: Refactor & improve
+  .coin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &::after {
+      position: relative;
+      top: -11px;
     }
   }
 }
