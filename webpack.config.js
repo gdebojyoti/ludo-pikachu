@@ -11,8 +11,8 @@ var config = {
   },
   mode: 'development',
   optimization: {
-		// minimize: false // We do not want to minimize our code
-	},
+    // minimize: false // We do not want to minimize our code
+  },
   output: {
     path: publicDirectory,
     filename: 'js-[name].js',
@@ -38,8 +38,8 @@ var config = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader',
-        ],
+          'sass-loader'
+        ]
       },
       {
         test: /\.(png|jp(e*)g|svg)$/,
@@ -56,7 +56,7 @@ var config = {
   plugins: [
     new HtmlWebpackPlugin({
       hash: false,
-      title: 'Ludo - a PWA',
+      title: 'Play Ludo Online | Play multiplayer with friends for free!',
       template: sourceDirectory + '/index.html',
       chunks: ['app'],
       filename: 'index.html' // relative to root of the application
