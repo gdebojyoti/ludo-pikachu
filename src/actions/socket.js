@@ -143,13 +143,42 @@ const initialize = () => {
     })
 
     // when enemy coin gets eaten
-    socket.on('ENEMY_COIN_EATEN', ({ coin: { playerId: id, coinId }, position: coinPosition }) => {
-      console.log('enemy coin eaten', id, coinId, coinPosition)
+    socket.on('ENEMY_COIN_EATEN', ({ coin: { playerId: id, coinId }, position: coinPosition, coinPositionOld }) => {
+      console.log('enemy coin eaten', id, coinId, coinPosition, 'to', coinPositionOld)
+      const {
+        players: {
+          [id]: {
+            home: color
+          } = {}
+        } = {}
+      } = getState()
+
+      // remove eaten coin from cell
+      dispatch({
+        type: 'REMOVE_COIN_FROM_CELL',
+        payload: {
+          cellId: coinPositionOld,
+          playerId: id,
+          coinId
+        }
+      })
+
       // update data in list of all players
       dispatch({
         type: 'UPDATE_PLAYERS_DATA',
         payload: {
           id, coinId, coinPosition
+        }
+      })
+
+      // add eaten coin to home cell
+      dispatch({
+        type: 'ADD_COIN_TO_CELL',
+        payload: {
+          cellId: coinPosition,
+          playerId: id,
+          coinId,
+          color
         }
       })
     })
