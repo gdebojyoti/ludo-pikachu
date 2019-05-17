@@ -46,6 +46,18 @@ $backgroundColor: #eee;
   transform-origin: 0 0;
   display: flex;
 
+  // NOTE: Refactor & improve
+  .coin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &::after {
+      position: relative;
+      top: -11px;
+    }
+  }
+
   &--red {
     transform: translateY($quadrantWidth);
     // outline: red solid 2px;
@@ -106,6 +118,13 @@ $backgroundColor: #eee;
       top: calc(50% + #{$gap} / 2);
       left: calc(50% + #{$gap} / 2);
     }
+
+    // NOTE: Refactor & improve
+    .coin {
+      &::after {
+        position: static;
+      }
+    }
   }
 
   &__rows {
@@ -154,18 +173,6 @@ $backgroundColor: #eee;
   &__cell-container {
     position: relative;
     width: 30px;
-  }
-
-  // NOTE: Refactor & improve
-  .coin {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    &::after {
-      position: relative;
-      top: -11px;
-    }
   }
 }
 

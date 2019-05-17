@@ -30,7 +30,7 @@ const Quadrant = props => {
   const divClass = 'quadrant' + (className ? ' ' + className : '')
 
   return <div className={divClass}>
-    <QuadrantHome id={id} playerData={playerData} />
+    <QuadrantHome id={id} playerData={playerData} cells={cells} />
     <div className='quadrant__rows'>
       {[3, 2, 1].map(index => <Row id={index} quadrantId={id} cells={cells} key={index} />)}
     </div>
@@ -38,14 +38,26 @@ const Quadrant = props => {
   </div>
 }
 
-const QuadrantHome = ({ id, playerData }) => {
+const QuadrantHome = ({ id, playerData, cells }) => {
   return <div className='quadrant__home'>
     <div className='quadrant__home-label'>{ playerData.name }</div>
     <div>
-      <div id={`${id}01`} className='quadrant__home-cell' />
-      <div id={`${id}02`} className='quadrant__home-cell' />
-      <div id={`${id}03`} className='quadrant__home-cell' />
-      <div id={`${id}04`} className='quadrant__home-cell' />
+      {[1, 2, 3, 4].map(index => {
+        const position = `${id}0${index}`
+        const {
+          [position]: {
+            coins: [
+              {
+                coinId, color
+              } = {}
+            ] = []
+          } = {}
+        } = cells
+        // insert coin in home cell if corresponding data is found in cells
+        return <div id={position} className='quadrant__home-cell' key={index}>
+          {coinId && <Coin id={coinId} position={null} color={color} />}
+        </div>
+      })}
     </div>
   </div>
 }
