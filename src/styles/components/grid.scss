@@ -1,14 +1,15 @@
-$cellWidth: 60px; // width of individual cells
-$quadrantHeight: 300px; // length of the square area
+$cellWidth: 26px; // width of individual cells
+$quadrantHeight: calc((355px - #{$cellWidth} * 3) / 2); // length of the square area
 
 $quadrantWidth: calc(#{$quadrantHeight} + #{$cellWidth} * 3);
-$borderColor: #ddd;
+$borderColor: #777;
 $backgroundColor: #eee;
 
 .grid {
   position: relative;
   width: calc(#{$quadrantHeight} + #{$quadrantWidth} + 2px);
   height: calc(#{$quadrantHeight} + #{$quadrantWidth} + 2px);
+  margin: 0 auto;
   border: 1px solid $borderColor;
 
   &__center {
@@ -21,13 +22,12 @@ $backgroundColor: #eee;
     left: $quadrantHeight;
     width: calc(#{$quadrantWidth} - #{$quadrantHeight});
     height: calc(#{$quadrantWidth} - #{$quadrantHeight});
-    border: 1px solid $borderColor;
   }
 
   &__logo {
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
     background-image: url(../../assets/logo.svg);
   }
 
@@ -45,18 +45,6 @@ $backgroundColor: #eee;
   position: absolute;
   transform-origin: 0 0;
   display: flex;
-
-  // NOTE: Refactor & improve
-  .coin {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    &::after {
-      position: relative;
-      top: -11px;
-    }
-  }
 
   &--red {
     transform: translateY($quadrantWidth);
@@ -82,7 +70,8 @@ $backgroundColor: #eee;
     position: relative;
     width: $quadrantHeight;
     height: $quadrantHeight;
-    border: 1px solid $borderColor;
+    border-top: 1px solid $borderColor;
+    border-right: 1px solid $borderColor;
     background-color: $backgroundColor;
   }
 
@@ -92,7 +81,7 @@ $backgroundColor: #eee;
   }
 
   // 4 cells inside each quadrant (initial positions for coins)
-  $homeCellSide: 60px;
+  $homeCellSide: 28px;
   $gap: 30px;
   &__home-cell {
     position: absolute;
@@ -100,7 +89,7 @@ $backgroundColor: #eee;
     width: $homeCellSide;
     height: $homeCellSide;
     background-color: #fff;
-    // transform: rotate(20deg);
+    // transform: rotate(-20deg);
     animation: spin 30s linear infinite;
     &:nth-of-type(1) {
       top: calc(50% - #{$homeCellSide} - #{$gap} / 2);
@@ -118,17 +107,18 @@ $backgroundColor: #eee;
       top: calc(50% + #{$gap} / 2);
       left: calc(50% + #{$gap} / 2);
     }
-
-    // NOTE: Refactor & improve
-    .coin {
-      &::after {
-        position: static;
-      }
-    }
   }
 
   &__rows {
     display: flex;
+  }
+
+  &__row {
+    &:first-of-type {
+      .quadrant__cell {
+        border-left: 0;
+      }
+    }
   }
 
   &__cell {
@@ -138,8 +128,10 @@ $backgroundColor: #eee;
     align-items: center;
     width: $cellWidth;
     height: calc(#{$quadrantHeight} / 6);
-    padding: 0 10px;
-    border: 1px solid $borderColor;
+    padding: 0 8px;
+    border-top: 1px solid $borderColor;
+    border-left: 1px solid $borderColor;
+    font-size: 10px;
     line-height: calc(#{$quadrantHeight} / 6);
     color: #0002;
     text-align: center;
@@ -164,15 +156,23 @@ $backgroundColor: #eee;
 
     &--end {
       position: absolute;
-      right: 60px;
-      top: -50px;
-      border: 1px solid #0009;
+      right: calc(#{$cellWidth} - 5px);
+      top: -22px;
+      width: calc(#{$cellWidth} + 10px);
+      border: 1px solid $borderColor;
     }
   }
 
   &__cell-container {
     position: relative;
     width: 30px;
+  }
+
+  .coin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 

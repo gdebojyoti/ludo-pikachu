@@ -93,7 +93,9 @@ const Cell = ({ id, className = '', data: { coins = [] } = {} }) => {
             <Coin id={coinId} position={null} color={color} />
           </div>
         )
-        : <span>{id}</span>
+        : <span>{
+          // id
+        }</span>
     }
   </div>
 }

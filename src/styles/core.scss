@@ -5,6 +5,18 @@
   font: inherit;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

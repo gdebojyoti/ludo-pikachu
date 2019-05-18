@@ -4,7 +4,7 @@
   "description": "Ludo - a PWA",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --mode development",
+    "start": "webpack-dev-server --open --mode development --host 0.0.0.0",
     "build": "webpack --mode production"
   },
   "author": "Debojyoti Ghosh",
