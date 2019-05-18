@@ -68,6 +68,10 @@ const initialize = () => {
     // when a player rolls dice
     socket.on('DICE_ROLLED', ({ name, roll }) => {
       console.log(name, 'rolled a', roll)
+      dispatch({
+        type: 'UPDATE_LAST_ROLL',
+        payload: roll
+      })
     })
 
     // when a coin of any player changes position
@@ -186,6 +190,14 @@ const initialize = () => {
     // update current turn
     socket.on('SET_NEXT_TURN', ({ playerId }) => {
       console.log('next turn belongs to:', playerId)
+      dispatch({
+        type: 'UPDATE_NEXT_TURN',
+        payload: playerId
+      })
+      dispatch({
+        type: 'UPDATE_LAST_ROLL',
+        payload: null
+      })
     })
 
     // when a player leaves

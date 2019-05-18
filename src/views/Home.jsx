@@ -8,7 +8,7 @@ import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
 const Home = props => {
-  const { players, profile, cells, dispatch } = props
+  const { players, profile, cells, match, dispatch } = props
 
   useEffect(() => {
     dispatch(initialize())
@@ -23,7 +23,7 @@ const Home = props => {
 
     <Coins players={players} />
 
-    <Dice />
+    <Dice match={match} />
   </Fragment>
 }
 
@@ -58,10 +58,11 @@ const Coins = ({ players }) => {
   </Fragment>
 }
 
-const mapStateToProps = ({ players, profile, cells }) => ({
+const mapStateToProps = ({ players, profile, cells, match }) => ({
   players,
   profile,
-  cells
+  cells,
+  match
 })
 
 const mapDispatchToProps = dispatch => {

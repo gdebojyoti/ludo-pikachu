@@ -4,6 +4,10 @@ window.__INITIALSTATE__ = {
   profile: {
     id: '',
     matchId: 'some_id'
+  },
+  match: {
+    currentTurn: '',
+    lastRoll: 0
   }
 }
 
