@@ -11,6 +11,7 @@ html, body {
 
 body {
   font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
 }
 
 .app {
@@ -19,4 +20,5 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }

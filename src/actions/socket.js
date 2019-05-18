@@ -2,7 +2,7 @@ import openSocket from 'socket.io-client'
 import { getPlayerDetails } from '../utilities/data'
 
 // use heroku link only on production ("prod=true" in URL) only
-const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : 'http://localhost:8000'
+const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
 
 const socket = openSocket(remoteUrl)
 
