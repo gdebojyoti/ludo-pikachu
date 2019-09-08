@@ -15,8 +15,8 @@ const getQueries = () => {
 }
 
 export const getPlayerDetails = () => {
-  const { name, home } = getQueries()
+  const { home } = getQueries()
   return {
-    name, home
+    home
   }
 }

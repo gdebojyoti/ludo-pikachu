@@ -8,10 +8,10 @@ import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
 const Home = props => {
-  const { players, profile, cells, match, dispatch } = props
+  const { playerId, players, profile, cells, match, dispatch } = props
 
   useEffect(() => {
-    dispatch(initialize())
+    dispatch(initialize(playerId))
   }, [])
 
   // useEffect(() => {

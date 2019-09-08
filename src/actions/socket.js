@@ -11,11 +11,11 @@ const socket = openSocket(remoteUrl)
 //   socket.emit('subscribeToTimer', 2000)
 // }
 
-const initialize = () => {
+const initialize = (playerId) => {
   return (dispatch, getState) => {
-    const { name, home } = getPlayerDetails()
+    const { home } = getPlayerDetails()
     socket.emit('JOIN_MATCH', {
-      name, home
+      name: playerId, home
     })
 
     // // when current player (client) has joined
