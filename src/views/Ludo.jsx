@@ -6,7 +6,7 @@ import Welcome from './Start'
 import Grid from './Home'
 import { getValue } from '../utilities/localStorage'
 
-const Game = () => {
+const Ludo = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [name, setName] = useState('')
 
@@ -18,7 +18,7 @@ const Game = () => {
   }, [])
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <LoadingScreen />
   }
 
   if (name) {
@@ -28,4 +28,9 @@ const Game = () => {
   return <Welcome onNameUpdate={setName} />
 }
 
-export default Game
+// update UI & export this to a new file
+const LoadingScreen = () => {
+  return <div>Loading...</div>
+}
+
+export default Ludo
