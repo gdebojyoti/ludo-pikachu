@@ -1,0 +1,21 @@
+.lobby {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 420px;
+
+  &__cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 200px;
+    height: 150px;
+    border: solid;
+  }
+}
+
+.cta {
+  margin-top: 30px;
+}

@@ -6,29 +6,37 @@ import { setValue } from '../utilities/localStorage'
 
 import '../styles/views/startScreen'
 
-const StartScreen = ({ onNameUpdate }) => {
-  const saveName = (name) => {
-    setValue('name', name)
-    onNameUpdate(name)
+const StartScreen = ({ onEnter }) => {
+  const saveId = (id) => {
+    setValue('username', id)
+    onEnter(id)
   }
 
-  return <Name saveName={saveName} />
+  return <Name saveId={saveId} />
 }
 
-const Name = ({ saveName }) => {
-  const [name, setName] = useState('')
+const Name = ({ saveId }) => {
+  const [id, setId] = useState('')
 
   const onChange = e => {
-    e.target.value && setName(e.target.value)
+    e.target.value && setId(e.target.value)
+  }
+
+  const onSubmit = (e) => {
+    console.log(id)
+    saveId(id)
+
+    e.preventDefault()
   }
 
   return <div className='screen'>
     <h2>Welcome to Ludo</h2>
-    <label>
-      <div>Name</div>
-      <input type='input' onChange={onChange} value={name} />
-    </label>
-    <input type='submit' onClick={() => saveName(name)} value='Continue' />
+    <form onSubmit={onSubmit}>
+      <label>
+        <input autoFocus type='input' placeholder='Username' onChange={onChange} value={id} />
+      </label>
+      <input type='submit' value='Continue' />
+    </form>
   </div>
 }
 

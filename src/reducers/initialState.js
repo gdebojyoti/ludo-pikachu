@@ -1,11 +1,18 @@
+import matchStatus from '../constants/matchStatus'
+
 window.__INITIALSTATE__ = {
   players: {},
   cells: {},
   profile: {
     id: '',
-    matchId: 'some_id'
+    name: '',
+    home: '',
+    matchId: 'some_id',
+    isHost: false
   },
   match: {
+    id: null,
+    status: matchStatus.PREMATCH,
     currentTurn: '',
     lastRoll: 0
   }

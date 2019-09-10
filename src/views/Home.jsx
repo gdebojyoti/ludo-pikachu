@@ -8,10 +8,11 @@ import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
 const Home = props => {
-  const { playerId, players, profile, cells, match, dispatch } = props
+  const { playerId, players, profile, cells, match } = props
 
   useEffect(() => {
-    dispatch(initialize(playerId))
+    console.info(`Welcome to Ludo, ${playerId}!`)
+    console.log('profile', profile)
   }, [])
 
   // useEffect(() => {
@@ -67,8 +68,7 @@ const mapStateToProps = ({ players, profile, cells, match }) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    initialize: bindActionCreators(initialize, dispatch),
-    dispatch
+    initialize: bindActionCreators(initialize, dispatch)
   }
 }
 

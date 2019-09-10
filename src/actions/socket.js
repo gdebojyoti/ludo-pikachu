@@ -1,5 +1,6 @@
 import openSocket from 'socket.io-client'
-import { getPlayerDetails } from '../utilities/data'
+
+import { setValue } from '../utilities/localStorage'
 
 // use heroku link only on production ("prod=true" in URL) only
 const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
@@ -11,11 +12,48 @@ const socket = openSocket(remoteUrl)
 //   socket.emit('subscribeToTimer', 2000)
 // }
 
-const initialize = (playerId) => {
+const selectColor = ({ username, matchId, color }) => {
+  return () => {
+    socket.emit('SELECT_COLOR', {
+      playerId: username, matchId, color
+    })
+  }
+}
+
+const initialize = ({ username: playerId, matchId }) => {
   return (dispatch, getState) => {
-    const { home } = getPlayerDetails()
-    socket.emit('JOIN_MATCH', {
-      name: playerId, home
+    // const { home } = getPlayerDetails()
+    if (matchId) {
+      console.log('joining...', matchId, typeof matchId)
+      socket.emit('JOIN_MATCH', {
+        playerId,
+        matchId
+      })
+    } else {
+      console.log('hosting...')
+      socket.emit('HOST_MATCH', {
+        playerId
+      })
+      dispatch({
+        type: 'SET_AS_HOST'
+      })
+    }
+
+    // when current player (client) has joined
+    socket.on('CLIENT_JOINED', ({ matchId }) => {
+      // update match ID in local storage
+      setValue('matchId', matchId)
+
+      dispatch({
+        type: 'SET_MATCH_ID',
+        payload: matchId
+      })
+    })
+
+    // when no match with matchId is found
+    socket.on('MATCH_NOT_FOUND', ({ matches }) => {
+      console.log('Match not found! Existing ones', matches)
+      setValue('matchId', null)
     })
 
     // // when current player (client) has joined
@@ -37,10 +75,30 @@ const initialize = (playerId) => {
     //   })
     // })
 
-    socket.on('LATEST_MATCH_DATA', ({ playerId: id, players, matchId, name, home }) => {
+    socket.on('LATEST_MATCH_DATA', ({ playerId: id, players, status, matchId, host, name, home }) => {
+      console.log('home', home)
       dispatch({
         type: 'SET_MATCH_DATA',
         payload: players
+      })
+
+      dispatch({
+        type: 'UPDATE_MATCH_STATUS',
+        payload: status
+      })
+
+      host && dispatch({
+        type: 'SET_MATCH_HOST',
+        payload: host
+      })
+
+      host && host === id && dispatch({
+        type: 'SET_AS_HOST'
+      })
+
+      dispatch({
+        type: 'SET_MATCH_ID',
+        payload: matchId
       })
 
       dispatch({
@@ -48,7 +106,8 @@ const initialize = (playerId) => {
         payload: players
       })
 
-      dispatch({
+      // update profile data if player ID is available
+      id && dispatch({
         type: 'UPDATE_PROFILE_DATA',
         payload: {
           id, name, home, matchId
@@ -225,6 +284,7 @@ const onSelectCoin = coinId => {
 
 export {
   initialize,
+  selectColor,
   triggerDiceRoll,
   onSelectCoin
 }
