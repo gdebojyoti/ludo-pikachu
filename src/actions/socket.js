@@ -1,6 +1,7 @@
 import openSocket from 'socket.io-client'
 
 import { setValue } from '../utilities/localStorage'
+import matchStatus from '../constants/matchStatus'
 
 // use heroku link only on production ("prod=true" in URL) only
 const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
@@ -121,6 +122,15 @@ const initialize = ({ username: playerId, matchId }) => {
       dispatch({
         type: 'PLAYER_JOINED',
         payload: data
+      })
+    })
+
+    // when match starts
+    socket.on('MATCH_STARTED', () => {
+      // set match status as ongoing
+      dispatch({
+        type: 'UPDATE_MATCH_STATUS',
+        payload: matchStatus.ONGOING
       })
     })
 
@@ -272,6 +282,10 @@ const initialize = ({ username: playerId, matchId }) => {
   }
 }
 
+const startMatch = () => {
+  socket.emit('START_MATCH')
+}
+
 const triggerDiceRoll = (number = 0) => {
   socket.emit('TRIGGER_DICE_ROLL', number)
 }
@@ -285,6 +299,7 @@ const onSelectCoin = coinId => {
 export {
   initialize,
   selectColor,
+  startMatch,
   triggerDiceRoll,
   onSelectCoin
 }

@@ -8,11 +8,11 @@ import Start from './Start'
 import LobbyScreen from './Lobby'
 import Grid from './Home'
 import matchStatusConstants from '../constants/matchStatus'
-import { initialize, selectColor } from '../actions/socket'
+import * as actions from '../actions/socket'
 import { getValue, setValue } from '../utilities/localStorage'
 
 const Ludo = (props) => {
-  const { match: matchFromReact, matchId, matchStatus, initialize, selectColor, players, profile } = props
+  const { match: matchFromReact, actions: { initialize, selectColor, startMatch }, matchId, matchStatus, players, profile } = props
 
   const { params: { matchId: matchIdFromUrl } = {} } = matchFromReact
   console.log('details', matchFromReact, matchIdFromUrl)
@@ -52,13 +52,17 @@ const Ludo = (props) => {
 
   console.log('matchId!', matchId)
 
-  const hola = color => {
+  const onSelectColor = color => {
     console.log('username, matchId, color', username, matchId, color)
     selectColor({ username, matchId, color })
   }
 
+  const onStart = () => {
+    startMatch()
+  }
+
   if (matchStatus === matchStatusConstants.PREMATCH) {
-    return <LobbyScreen onSelectColor={hola} players={players} profile={profile} matchId={matchId} />
+    return <LobbyScreen onStart={onStart} onSelectColor={onSelectColor} players={players} profile={profile} matchId={matchId} />
   }
 
   return <Grid playerId={username} />
@@ -73,8 +77,7 @@ const mapStateToProps = ({ profile, players, match: { id, status } = {} }) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    initialize: bindActionCreators(initialize, dispatch),
-    selectColor: bindActionCreators(selectColor, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 

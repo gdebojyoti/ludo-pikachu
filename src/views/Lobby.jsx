@@ -24,7 +24,7 @@ const colors = [
 ]
 
 // update UI & export this to a new file
-const LobbyScreen = ({ onSelectColor, players, profile: { name, isHost }, matchId }) => {
+const LobbyScreen = ({ onStart, onSelectColor, players, profile: { name, isHost }, matchId }) => {
   const sortedPlayers = {}
   colors.forEach(({ value }) => {
     for (let playerId in players) {
@@ -38,7 +38,7 @@ const LobbyScreen = ({ onSelectColor, players, profile: { name, isHost }, matchI
     }
   })
 
-  let startButton = <button className='cta cta--start'>Start Match!</button>
+  let startButton = <button className='cta cta--start' onClick={onStart}>Start Match!</button>
   if (Object.keys(players).length < 2) {
     startButton = <div className='cta cta--start'>Waiting for players..</div>
   }
@@ -59,7 +59,7 @@ const LobbyScreen = ({ onSelectColor, players, profile: { name, isHost }, matchI
       })}
     </div>
 
-    <button className='cta cta--invite' onClick={() => copyText(matchId)}>Copy code - { matchId }</button>
+    {matchId && <button className='cta cta--invite' onClick={() => copyText(matchId)}>Copy code - { matchId }</button>}
 
     {isHost && startButton}
   </Fragment>
