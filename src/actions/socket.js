@@ -40,6 +40,13 @@ const initialize = ({ username: playerId, matchId }) => {
       })
     }
 
+    // when current player (client) is set as host
+    socket.on('SET_AS_HOST', () => {
+      dispatch({
+        type: 'SET_AS_HOST'
+      })
+    })
+
     // when current player (client) has joined
     socket.on('CLIENT_JOINED', ({ matchId }) => {
       // update match ID in local storage
@@ -53,8 +60,9 @@ const initialize = ({ username: playerId, matchId }) => {
 
     // when no match with matchId is found
     socket.on('MATCH_NOT_FOUND', ({ matches }) => {
-      console.log('Match not found! Existing ones', matches)
-      setValue('matchId', null)
+      console.log('Match not found! Existing ones:', matches)
+      console.log('Joining a new one...')
+      // setValue('matchId', null)
     })
 
     // // when current player (client) has joined
