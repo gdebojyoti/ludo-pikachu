@@ -1,6 +1,6 @@
 // accept user's name & save it to local storage
 
-// NOTE: FB login is currently working on FF; not in Chrome. Access to name & id by default. Additional request for profile pic required
+// NOTE: FB login is currently working on FF; not in Chrome. Doesn't work in localhost either. Access to name & id by default. Additional request for profile pic required.
 
 import React, { useState } from 'react'
 
