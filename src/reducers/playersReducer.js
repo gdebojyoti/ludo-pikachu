@@ -27,7 +27,7 @@ export default function (state = initialState.players, action) {
     }
 
     case 'UPDATE_PLAYERS_DATA': {
-      const { id, coinId, coinPosition } = action.payload
+      const { id, coinId, coinPosition, isShowing = false } = action.payload
       const players = { ...state }
 
       if (!players[id]) {
@@ -38,7 +38,10 @@ export default function (state = initialState.players, action) {
         ...players[id],
         coins: {
           ...players[id].coins,
-          [coinId]: coinPosition
+          [coinId]: {
+            position: coinPosition,
+            isShowing
+          }
         }
       }
 
@@ -46,6 +49,16 @@ export default function (state = initialState.players, action) {
     }
 
     case 'SET_MATCH_DATA' : {
+      const data = {...action.payload}
+      for (const id in data) {
+        const player = data[id]
+        for (const coin in player.coins) {
+          player.coins[coin] = {
+            position: player.coins[coin],
+            isShowing: false
+          }
+        }
+      }
       return action.payload
     }
 

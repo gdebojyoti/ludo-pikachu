@@ -8,10 +8,11 @@ import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
 const Home = props => {
-  const { players, profile, dispatch } = props
+  const { playerId, players, profile, cells, match } = props
 
   useEffect(() => {
-    dispatch(initialize())
+    console.info(`Welcome to Ludo, ${playerId}!`)
+    console.log('profile', profile)
   }, [])
 
   // useEffect(() => {
@@ -19,11 +20,11 @@ const Home = props => {
   // }, [players[profile.id]])
 
   return <Fragment>
-    <Grid players={players} profile={profile} />
+    <Grid players={players} profile={profile} cells={cells} />
 
     <Coins players={players} />
 
-    <Dice />
+    <Dice match={match} />
   </Fragment>
 }
 
@@ -38,8 +39,9 @@ const Coins = ({ players }) => {
         if (coins.hasOwnProperty(coinId)) {
           allCoins.push({
             id: coinId,
-            position: coins[coinId],
-            home
+            position: coins[coinId].position,
+            home,
+            isShowing: coins[coinId].isShowing
           })
         }
       }
@@ -47,21 +49,26 @@ const Coins = ({ players }) => {
   }
 
   return <Fragment>
-    {allCoins.map(({ id, position, home }) => {
+    {allCoins.map(({ id, home, position, isShowing }) => {
+      if (!isShowing) {
+        return null
+      }
+
       return <Coin id={id} position={position} color={home} key={`${home}-${id}`} />
     })}
   </Fragment>
 }
 
-const mapStateToProps = ({ players, profile }) => ({
+const mapStateToProps = ({ players, profile, cells, match }) => ({
   players,
-  profile
+  profile,
+  cells,
+  match
 })
 
 const mapDispatchToProps = dispatch => {
   return {
-    initialize: bindActionCreators(initialize, dispatch),
-    dispatch
+    initialize: bindActionCreators(initialize, dispatch)
   }
 }
 

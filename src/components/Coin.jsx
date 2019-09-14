@@ -4,11 +4,14 @@ import { onSelectCoin } from '../actions/socket'
 
 import '../styles/components/coin'
 
+// id = 'alfa', etc
+// color = 'red'
+// position = cell ID
 const Coin = ({ id, position, color, isActive }) => {
   const elm = document.getElementById(position)
   const style = {}
 
-  const coinSize = 30
+  const coinSize = 20
 
   if (elm) {
     const { x, y, width, height } = elm.getBoundingClientRect() || {}
