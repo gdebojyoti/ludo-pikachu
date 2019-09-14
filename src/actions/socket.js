@@ -5,7 +5,8 @@ import matchStatus from '../constants/matchStatus'
 import networkStatus from '../constants/networkStatus'
 
 // use heroku link only on production ("prod=true" in URL) only
-const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
+// const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
+const remoteUrl = window.location.host.indexOf('playludo') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
 
 const socket = openSocket(remoteUrl)
 
