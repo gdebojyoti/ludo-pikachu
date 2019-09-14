@@ -13,7 +13,7 @@ You can find the backend here - [Ludo Blastoise](https://github.com/gdebojyoti/l
 ## Features / Roadmap
 
 - [x] Basic game is ready
-- [ ] Basic features: Start screen (new game); player name; color choice; invite others
+- [x] Basic features: Start screen (new game); player name; color choice; invite others
 - [ ] Better UI (coins in cells; prevent invalid selections; dice rolls; responsive; fit for mobile devices) & sounds
 - [ ] Better UX (resume playing; multiple games simultaneously)
 - [ ] Facebook login
