@@ -2,6 +2,7 @@ import openSocket from 'socket.io-client'
 
 import { setValue } from '../utilities/localStorage'
 import matchStatus from '../constants/matchStatus'
+import networkStatus from '../constants/networkStatus'
 
 // use heroku link only on production ("prod=true" in URL) only
 const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
@@ -40,6 +41,59 @@ const initialize = ({ username: playerId, matchId }) => {
       })
     }
 
+    socket.on('connect', () => {
+      console.warn('connected', socket.id, socket.disconnected, socket)
+      dispatch({
+        type: 'UPDATE_CONNECTION_STATUS',
+        payload: {
+          status: networkStatus.CONNECTED
+        }
+      })
+      const { match: { id } } = getState()
+      console.log('rejoining...', matchId)
+      socket.emit('JOIN_MATCH', {
+        playerId,
+        matchId: id
+      })
+    })
+
+    socket.on('disconnect', (msg) => {
+      console.warn('disconnected', msg)
+      dispatch({
+        type: 'UPDATE_CONNECTION_STATUS',
+        payload: {
+          status: networkStatus.DISCONNECTED,
+          msg
+        }
+      })
+    })
+
+    // socket.on('reconnect_attempt', (attemptNumber) => {
+    //   console.warn('reconnect attempt...', attemptNumber)
+    // })
+
+    socket.on('reconnecting', (attemptNumber) => {
+      console.warn('reconnecting...', attemptNumber)
+      dispatch({
+        type: 'UPDATE_CONNECTION_STATUS',
+        payload: {
+          status: networkStatus.RECONNECTING
+        }
+      })
+    })
+
+    // socket.on('reconnect', (attemptNumber) => {
+    //   console.warn('reconnected', attemptNumber)
+    // })
+
+    socket.on('reconnect_error', (error) => {
+      console.warn('reconnection error', error)
+    })
+
+    socket.on('reconnect_failed', () => {
+      console.warn('failed to reconnect')
+    })
+
     // when current player (client) is set as host
     socket.on('SET_AS_HOST', () => {
       dispatch({
@@ -65,25 +119,6 @@ const initialize = ({ username: playerId, matchId }) => {
       // setValue('matchId', null)
     })
 
-    // // when current player (client) has joined
-    // socket.on('CLIENT_JOINED', ({ id, name, home, matchId }) => {
-    //   // update current player's data
-    //   dispatch({
-    //     type: 'UPDATE_PROFILE_DATA',
-    //     payload: {
-    //       id, name, home, matchId
-    //     }
-    //   })
-
-    //   // update list of all players
-    //   dispatch({
-    //     type: 'PLAYER_JOINED',
-    //     payload: {
-    //       id, name, home
-    //     }
-    //   })
-    // })
-
     socket.on('LATEST_MATCH_DATA', ({ playerId: id, players, status, matchId, host, name, home }) => {
       console.log('home', home)
       dispatch({
@@ -101,7 +136,7 @@ const initialize = ({ username: playerId, matchId }) => {
         payload: host
       })
 
-      host && host === id && dispatch({
+      host && host === playerId && dispatch({
         type: 'SET_AS_HOST'
       })
 
@@ -271,10 +306,10 @@ const initialize = ({ username: playerId, matchId }) => {
         type: 'UPDATE_NEXT_TURN',
         payload: playerId
       })
-      dispatch({
-        type: 'UPDATE_LAST_ROLL',
-        payload: null
-      })
+      // dispatch({
+      //   type: 'UPDATE_LAST_ROLL',
+      //   payload: null
+      // })
     })
 
     // when a player leaves

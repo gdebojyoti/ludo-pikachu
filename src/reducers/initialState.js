@@ -1,4 +1,5 @@
 import matchStatus from '../constants/matchStatus'
+import networkStatus from '../constants/networkStatus'
 
 window.__INITIALSTATE__ = {
   players: {},
@@ -15,6 +16,10 @@ window.__INITIALSTATE__ = {
     status: matchStatus.PREMATCH,
     currentTurn: '',
     lastRoll: 0
+  },
+  network: {
+    status: networkStatus.CONNECTED,
+    errorMsg: ''
   }
 }
 
