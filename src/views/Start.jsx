@@ -1,39 +1,40 @@
 // accept user's name & save it to local storage
 
-import React, { useEffect, useState } from 'react'
+// NOTE: FB login is currently working on FF; not in Chrome. Access to name & id by default. Additional request for profile pic required
+
+import React, { useState } from 'react'
 
 import { setValue } from '../utilities/localStorage'
 
 import '../styles/views/startScreen'
 
 const StartScreen = ({ onEnter }) => {
-  // NOTE: Currently working on FF; not in Chrome. Access to name & id by default. Additional request for profile pic required
-  useEffect(() => {
-    document.addEventListener('FbObjectReady', checkLoginState)
-  }, [])
+  // useEffect(() => {
+  //   document.addEventListener('FbObjectReady', checkLoginState)
+  // }, [])
 
-  function checkLoginState () {
-    console.log('checking...')
-    window.FB.getLoginStatus(function (response) {
-      console.log(response)
-      if (response.status === 'connected') {
-        window.FB.login(facebookLoginHandler, {
-          // scope: 'public_profile,email'
-          scope: 'public_profile'
-        })
-      }
-    })
-  }
+  // function checkLoginState () {
+  //   console.log('checking...')
+  //   window.FB.getLoginStatus(function (response) {
+  //     console.log(response)
+  //     if (response.status === 'connected') {
+  //       window.FB.login(facebookLoginHandler, {
+  //         // scope: 'public_profile,email'
+  //         scope: 'public_profile'
+  //       })
+  //     }
+  //   })
+  // }
 
-  const facebookLoginHandler = response => {
-    if (response.status === 'connected') {
-      window.FB.api('/me', userData => {
-        console.log('successful login with data', userData, response)
-      })
-    } else {
-      console.log('data fetching failed', response)
-    }
-  }
+  // const facebookLoginHandler = response => {
+  //   if (response.status === 'connected') {
+  //     window.FB.api('/me', userData => {
+  //       console.log('successful login with data', userData, response)
+  //     })
+  //   } else {
+  //     console.log('data fetching failed', response)
+  //   }
+  // }
 
   const saveId = (id) => {
     setValue('username', id)
@@ -43,10 +44,8 @@ const StartScreen = ({ onEnter }) => {
   return <div>
     <Name saveId={saveId} />
 
-    <button onClick={checkLoginState}>Dummy FB!</button>
-    <br />
-
-    <div className='fb-login-button' data-width='' data-size='medium' data-button-type='continue_with' data-auto-logout-link='true' data-use-continue-as='true' />
+    {/* <button onClick={checkLoginState}>Dummy FB!</button>
+    <div className='fb-login-button' data-width='' data-size='medium' data-button-type='continue_with' data-auto-logout-link='true' data-use-continue-as='true' /> */}
   </div>
 }
 
