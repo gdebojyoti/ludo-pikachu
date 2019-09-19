@@ -48,7 +48,7 @@ export default function (state = initialState.players, action) {
       return players
     }
 
-    case 'SET_MATCH_DATA' : {
+    case 'SET_PLAYERS_DATA' : {
       const data = {...action.payload}
       for (const id in data) {
         const player = data[id]

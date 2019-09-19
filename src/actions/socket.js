@@ -1,7 +1,7 @@
 import openSocket from 'socket.io-client'
 
 import { setValue } from '../utilities/localStorage'
-import matchStatus from '../constants/matchStatus'
+// import matchStatus from '../constants/matchStatus'
 import networkStatus from '../constants/networkStatus'
 
 // use heroku link only on production ("prod=true" in URL) only
@@ -106,11 +106,6 @@ const initialize = ({ username: playerId, matchId }) => {
     socket.on('CLIENT_JOINED', ({ matchId }) => {
       // update match ID in local storage
       setValue('matchId', matchId)
-
-      dispatch({
-        type: 'SET_MATCH_ID',
-        payload: matchId
-      })
     })
 
     // when no match with matchId is found
@@ -120,30 +115,21 @@ const initialize = ({ username: playerId, matchId }) => {
       // setValue('matchId', null)
     })
 
-    socket.on('LATEST_MATCH_DATA', ({ playerId: id, players, status, matchId, host, name, home }) => {
-      console.log('home', home)
+    socket.on('LATEST_MATCH_DATA', (data) => {
+      const { playerId: id, players, id: matchId, hostId, name, home } = data
+
       dispatch({
-        type: 'SET_MATCH_DATA',
+        type: 'UPDATE_MATCH_DATA',
+        payload: data
+      })
+
+      dispatch({
+        type: 'SET_PLAYERS_DATA',
         payload: players
       })
 
-      dispatch({
-        type: 'UPDATE_MATCH_STATUS',
-        payload: status
-      })
-
-      host && dispatch({
-        type: 'SET_MATCH_HOST',
-        payload: host
-      })
-
-      host && host === playerId && dispatch({
+      hostId && hostId === playerId && dispatch({
         type: 'SET_AS_HOST'
-      })
-
-      dispatch({
-        type: 'SET_MATCH_ID',
-        payload: matchId
       })
 
       dispatch({
@@ -166,15 +152,6 @@ const initialize = ({ username: playerId, matchId }) => {
       dispatch({
         type: 'PLAYER_JOINED',
         payload: data
-      })
-    })
-
-    // when match starts
-    socket.on('MATCH_STARTED', () => {
-      // set match status as ongoing
-      dispatch({
-        type: 'UPDATE_MATCH_STATUS',
-        payload: matchStatus.ONGOING
       })
     })
 
@@ -307,10 +284,10 @@ const initialize = ({ username: playerId, matchId }) => {
         type: 'UPDATE_NEXT_TURN',
         payload: playerId
       })
-      // dispatch({
-      //   type: 'UPDATE_LAST_ROLL',
-      //   payload: null
-      // })
+      dispatch({
+        type: 'UPDATE_LAST_ROLL',
+        payload: null
+      })
     })
 
     // when a player leaves

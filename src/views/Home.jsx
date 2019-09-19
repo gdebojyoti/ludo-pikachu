@@ -24,7 +24,7 @@ const Home = props => {
 
     <Coins players={players} />
 
-    <Dice match={match} />
+    <Dice match={match} profile={profile} />
   </Fragment>
 }
 

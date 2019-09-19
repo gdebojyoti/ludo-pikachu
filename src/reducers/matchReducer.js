@@ -9,20 +9,6 @@ export default function (state = initialState.match, action) {
       return match
     }
 
-    case 'UPDATE_MATCH_STATUS': {
-      const match = { ...state }
-      match.status = action.payload
-
-      return match
-    }
-
-    case 'SET_MATCH_HOST': {
-      const match = { ...state }
-      match.host = action.payload
-
-      return match
-    }
-
     case 'UPDATE_LAST_ROLL': {
       const match = { ...state }
       const rolled = action.payload
@@ -37,6 +23,19 @@ export default function (state = initialState.match, action) {
       const playerId = action.payload
 
       match.currentTurn = playerId
+
+      return match
+    }
+
+    case 'UPDATE_MATCH_DATA': {
+      const match = { ...state }
+      const { id, currentTurn, hostId, lastRoll, status } = action.payload
+
+      match.id = id
+      match.currentTurn = currentTurn
+      match.hostId = hostId
+      match.lastRoll = lastRoll
+      match.status = status
 
       return match
     }
