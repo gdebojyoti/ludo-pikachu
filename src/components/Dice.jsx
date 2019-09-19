@@ -5,8 +5,10 @@ import { triggerDiceRoll } from '../actions/socket'
 
 import '../styles/components/dice'
 
+let timeout = null
+let myAudio = null
+
 const Dice = ({ match: { currentTurn, lastRoll }, profile: { id: playerId } }) => {
-  let timeout = null
   const [isRolling, setIsRolling] = useState(false)
   useEffect(() => {
     if (lastRoll) {
@@ -16,12 +18,19 @@ const Dice = ({ match: { currentTurn, lastRoll }, profile: { id: playerId } }) =
     }
   }, [lastRoll])
 
+  useEffect(() => {
+    myAudio = new window.Audio('https://www.debojyotighosh.com/assets/rollingDie.mp3') // TODO: A more permanent URL
+  }, [])
+
   const buttons = []
   for (let i = 1; i <= 6; i++) {
     buttons.push(<button key={i} onClick={() => onClickDie(i)}>Roll {i}</button>)
   }
 
   const onClickDie = (n = 0) => {
+    // play rolling die sound
+    myAudio && myAudio.play()
+    // die starts rolling animations
     setIsRolling(true)
     // let the die roll for at least 200ms
     setTimeout(() => triggerDiceRoll(n), 200)
