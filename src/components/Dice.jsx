@@ -49,7 +49,8 @@ const Dice = ({ match: { currentTurn, lastRoll }, profile: { id: playerId } }) =
     />
 
     <div className='roll-details'>
-      {!!currentTurn && <div>Current turn: { currentTurn }</div>}
+      {!!currentTurn && currentTurn === playerId && <div>Your turn!</div>}
+      {!!currentTurn && currentTurn !== playerId && <div>Current turn: { currentTurn }</div>}
       {!!lastRoll && <div>Rolled a { lastRoll }</div>}
     </div>
   </div>

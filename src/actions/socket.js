@@ -1,12 +1,13 @@
 import openSocket from 'socket.io-client'
 
 import { setValue } from '../utilities/localStorage'
-// import matchStatus from '../constants/matchStatus'
 import networkStatus from '../constants/networkStatus'
 
 // use heroku link only on production ("prod=true" in URL) only
 // const remoteUrl = window.location.search.indexOf('prod') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
 const remoteUrl = window.location.host.indexOf('playludo') >= 0 ? 'https://ludo-blastoise.herokuapp.com/' : `http://${window.location.hostname}:8000`
+
+// const coinStepSound = new window.Audio('https://www.debojyotighosh.com/assets/ludoCoinStep.mp3') // TODO: A more permanent URL
 
 const socket = openSocket(remoteUrl)
 
@@ -209,6 +210,15 @@ const initialize = ({ username: playerId, matchId }) => {
               id, coinId, coinPosition: coinPath[step], isShowing: true
             }
           })
+
+          // if (coinStepSound) {
+          //   if (!coinStepSound.paused) {
+          //     coinStepSound.pause()
+          //     coinStepSound.currentTime = 0
+          //   }
+          //   coinStepSound.play()
+          // }
+
           step++
         } else {
           // hide moveable coin in final position

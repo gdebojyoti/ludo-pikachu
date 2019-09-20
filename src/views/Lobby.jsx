@@ -43,6 +43,19 @@ const LobbyScreen = ({ onStart, onSelectColor, players, profile: { name, isHost 
     startButton = <div className='cta cta--start'>Waiting for players..</div>
   }
 
+  const shareMatch = () => {
+    const url = window.location.origin + '/' + matchId
+    copyText(url)
+    if (navigator.share) {
+      navigator.share({
+        title: 'Play Ludo Online!',
+        url
+      }).then(() => {
+        console.log('Thanks for sharing!')
+      }).catch(console.error)
+    }
+  }
+
   return <Fragment>
     <div className='lobby'>
       {colors.map(({ label, value }) => {
@@ -59,7 +72,7 @@ const LobbyScreen = ({ onStart, onSelectColor, players, profile: { name, isHost 
       })}
     </div>
 
-    {matchId && <button className='cta cta--invite' onClick={() => copyText(matchId)}>Copy code - { matchId }</button>}
+    {matchId && <button className='cta cta--invite' onClick={shareMatch}>Copy code - { matchId }</button>}
 
     {isHost && startButton}
   </Fragment>
