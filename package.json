@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --mode development --host 0.0.0.0",
-    "build": "webpack --mode production"
+    "build": "node scripts/build.js && webpack -p"
   },
   "author": "Debojyoti Ghosh",
   "license": "ISC",
