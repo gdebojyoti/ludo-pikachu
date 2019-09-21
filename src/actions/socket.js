@@ -163,6 +163,10 @@ const initialize = ({ username: playerId, matchId }) => {
         type: 'UPDATE_LAST_ROLL',
         payload: roll
       })
+      dispatch({
+        type: 'UPDATE_DICE_ROLLED',
+        payload: true
+      })
     })
 
     // when a coin of any player changes position
@@ -289,7 +293,7 @@ const initialize = ({ username: playerId, matchId }) => {
 
     // update current turn
     socket.on('SET_NEXT_TURN', ({ playerId }) => {
-      console.log('next turn belongs to:', playerId)
+      console.info('next turn belongs to:', playerId)
       dispatch({
         type: 'UPDATE_NEXT_TURN',
         payload: playerId
@@ -297,6 +301,10 @@ const initialize = ({ username: playerId, matchId }) => {
       dispatch({
         type: 'UPDATE_LAST_ROLL',
         payload: null
+      })
+      dispatch({
+        type: 'UPDATE_DICE_ROLLED',
+        payload: false
       })
     })
 

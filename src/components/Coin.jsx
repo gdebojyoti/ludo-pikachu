@@ -7,7 +7,9 @@ import '../styles/components/coin'
 // id = 'alfa', etc
 // color = 'red'
 // position = cell ID
-const Coin = ({ id, position, color, isActive }) => {
+
+// shouldPulse = true, when coin is selectable
+const Coin = ({ id, position, color, isPlayers, isActive, shouldPulse }) => {
   const elm = document.getElementById(position)
   const style = {}
 
@@ -18,7 +20,9 @@ const Coin = ({ id, position, color, isActive }) => {
     style.transform = `translate(${x + (width - coinSize) / 2}px, ${y + (height - coinSize) / 2}px) ${isActive ? 'scale(1.3)' : ''}`
   }
 
-  return <div className={`coin coin--${color}`} id='coin' style={style} onClick={() => onSelectCoin(id)} />
+  return <div className={`coin coin--${color} ${!isPlayers && `coin--disabled`}`} id='coin' style={style} onClick={() => onSelectCoin(id)}>
+    <div className={`coin__internal coin__internal--${color} ${shouldPulse && `coin__internal--pulse`}`} />
+  </div>
 }
 
 export default Coin

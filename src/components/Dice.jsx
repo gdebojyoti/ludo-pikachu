@@ -8,7 +8,7 @@ import '../styles/components/dice'
 let timeout = null
 let myAudio = null
 
-const Dice = ({ match: { currentTurn, lastRoll }, profile: { id: playerId } }) => {
+const Dice = ({ match: { currentTurn, lastRoll, isDiceRolled }, profile: { id: playerId } }) => {
   const [isRolling, setIsRolling] = useState(false)
   useEffect(() => {
     if (lastRoll) {
@@ -46,7 +46,7 @@ const Dice = ({ match: { currentTurn, lastRoll }, profile: { id: playerId } }) =
       lastRoll={lastRoll}
       isRolling={isRolling}
       onClick={() => onClickDie(0)}
-      isDisabled={playerId !== currentTurn || (!isRolling && lastRoll)}
+      isDisabled={playerId !== currentTurn || isDiceRolled}
     />
 
     <div className='roll-details'>

@@ -8,7 +8,7 @@ import Dice from '../components/Dice'
 import { initialize } from '../actions/socket'
 
 const Home = props => {
-  const { playerId, players, profile, cells, match } = props
+  const { playerId, players, profile, profile: { home } = {}, match } = props
 
   useEffect(() => {
     console.info(`Welcome to Ludo, ${playerId}!`)
@@ -20,16 +20,16 @@ const Home = props => {
   // }, [players[profile.id]])
 
   return <Fragment>
-    <Grid players={players} profile={profile} cells={cells} />
+    <Grid />
 
-    <Coins players={players} />
+    <Coins players={players} playerHome={home} />
 
     <Dice match={match} profile={profile} />
   </Fragment>
 }
 
-// render all applicable coins
-const Coins = ({ players }) => {
+// render all applicable coins - used when a coin is in motion (i.e. moving from one position to another)
+const Coins = ({ players, playerHome }) => {
   const allCoins = []
 
   for (const playerId in players) {
@@ -54,7 +54,7 @@ const Coins = ({ players }) => {
         return null
       }
 
-      return <Coin id={id} position={position} color={home} key={`${home}-${id}`} />
+      return <Coin id={id} position={position} color={home} key={`${home}-${id}`} isPlayers={playerHome === home} />
     })}
   </Fragment>
 }

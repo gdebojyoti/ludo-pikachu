@@ -27,15 +27,23 @@ export default function (state = initialState.match, action) {
       return match
     }
 
+    case 'UPDATE_DICE_ROLLED': {
+      const match = { ...state }
+      match.isDiceRolled = action.payload
+
+      return match
+    }
+
     case 'UPDATE_MATCH_DATA': {
       const match = { ...state }
-      const { id, currentTurn, hostId, lastRoll, status } = action.payload
+      const { id, currentTurn, hostId, lastRoll, status, isDiceRolled } = action.payload
 
       match.id = id
       match.currentTurn = currentTurn
       match.hostId = hostId
       match.lastRoll = lastRoll
       match.status = status
+      match.isDiceRolled = isDiceRolled
 
       return match
     }
