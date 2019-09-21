@@ -24,7 +24,7 @@ const colors = [
 ]
 
 // update UI & export this to a new file
-const LobbyScreen = ({ onStart, onSelectColor, players, profile: { name, isHost }, matchId }) => {
+const LobbyScreen = ({ onStart, onSelectColor, players, profile: { name, isHost, home }, matchId }) => {
   const sortedPlayers = {}
   colors.forEach(({ value }) => {
     for (let playerId in players) {
@@ -38,9 +38,13 @@ const LobbyScreen = ({ onStart, onSelectColor, players, profile: { name, isHost 
     }
   })
 
-  let startButton = <button className='cta cta--start' onClick={onStart}>Start Match!</button>
-  if (Object.keys(players).length < 2) {
-    startButton = <div className='cta cta--start'>Waiting for players..</div>
+  let startButton = <button className='cta' onClick={onStart}>Start Match!</button>
+  if (!home) {
+    // if player hasn't selected color
+    startButton = <div className='cta'>Select a color</div>
+  } else if (Object.keys(players).length < 1) {
+    // if minimum player count has not been reached
+    startButton = <div className='cta'>Waiting for players..</div>
   }
 
   const shareMatch = () => {

@@ -39,6 +39,7 @@ const Dice = ({ match: { currentTurn, lastRoll }, profile: { id: playerId } }) =
   }
 
   return <div className='dice-set'>
+    {/* TODO: Remove these buttons once dev is complete */}
     {buttons.map(button => button)}
 
     <Die
